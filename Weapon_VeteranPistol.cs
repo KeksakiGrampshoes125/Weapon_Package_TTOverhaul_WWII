@@ -48,10 +48,10 @@ datablock ItemData(VeteranPistolItem)
 	uiName = "Veteran Pistol";
 	iconName = "./Icons/VeteranPistol";
 	doColorShift = true;
-	colorShiftColor = "0.54 0.52 0.47 1";
+	colorShiftColor = "0.54 0.54 0.54 1";
 
 	 // Dynamic properties defined by the scripts
-	image = ServicePistolImage;
+	image = VeteranPistolImage;
 	canDrop = true;
 
 	TTO_ammoType = "45ACP";
@@ -137,7 +137,7 @@ datablock ShapeBaseImageData(VeteranPistolImage)
 
 	stateName[4]                     = "Fire";
 	stateTransitionOnTimeout[4]      = "Smoke";
-	stateTimeoutValue[4]             = 0.05;
+	stateTimeoutValue[4]             = 0.092;
 	stateFire[4]                     = true;
 	stateAllowImageChange[4]         = false;
 	stateEjectShell[4]               = true;
