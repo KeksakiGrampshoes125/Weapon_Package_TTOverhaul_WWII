@@ -26,7 +26,7 @@ else
    //exec("./Weapon_ArisakaRaifuru.cs");
 
    //SUBMACHINE GUNS
-   exec("./Weapon_ThompsonSMG.cs");
+   exec("./Weapon_WWIIThompsonSMG.cs");
    //exec("./Weapon_GreaseSMG.cs");
    //exec("./Weapon_StenlingSMG.cs"); //model done
    //exec("./Weapon_MachinenPistole.cs");
