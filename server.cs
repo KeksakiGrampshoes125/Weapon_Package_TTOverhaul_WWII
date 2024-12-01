@@ -9,45 +9,42 @@ else
 
    //PISTOLS
    exec("./Weapon_VeteranPistol.cs");
-   //exec("./Weapon_LugerPistole.cs"); //Model done
-   //exec/"./Weapon_BroomhandlePistol.cs"); /Model done
-   //exec("./Weapon_NambuPistoru.cs");
-   //exec("./Weapon_TokarevPistolet.cs");
+   //exec("./Weapon_LugerPistole.cs"); model and sound done
+   //exec/"./Weapon_BroomhandlePistol.cs"); model and sound done
+   //exec("./Weapon_TokarevPistolet.cs"); sound done
 
    //SHOTGUNS
    exec("./Weapon_TrenchShotgun.cs");
-   //exec("./Weapon_RepeatingShotgun.cs"); model done
-   //exec("./Weapon_SawnOff.cs"); edi- i mean model done
+   //exec("./Weapon_RepeatingShotgun.cs"); model and sound done
+   //exec("./Weapon_SawnOff.cs"); edi- i mean model and sound done
 
    //RIFLES
-   //exec("./Weapon_InfantryRifle.cs");
-   //exec("./Weapon_MosinVintovka.cs");
-   //exec("./Weapon_KarabinerGewehr.cs");
-   //exec("./Weapon_ArisakaRaifuru.cs");
+   //exec("./Weapon_InfantryRifle.cs"); sounds done
+   //exec("./Weapon_MosinVintovka.cs"); sound done
+   //exec("./Weapon_KarabinerGewehr.cs"); sound done
+   //exec("./Weapon_ArisakaRaifuru.cs"); sound done
 
    //SUBMACHINE GUNS
    exec("./Weapon_WWIIThompsonSMG.cs");
-   //exec("./Weapon_GreaseSMG.cs");
-   //exec("./Weapon_StenlingSMG.cs"); //model done
-   //exec("./Weapon_MachinenPistole.cs");
-   //exec("./Weapon_HyakuJu.cs");
-   //exec("./Weapon_PistoletPumelet.cs");
+   //exec("./Weapon_GreaseSMG.cs"); model and sound done
+   //exec("./Weapon_StenlingSMG.cs"); model and sound done
+   //exec("./Weapon_MachinenPistole.cs"); sound done
+   //exec("./Weapon_HyakuJu.cs"); sound done
+   //exec("./Weapon_PistoletPumelet.cs"); sound done
 
    //ASSAULT RIFLES
-   //exec("./Weapon_BAR.cs");
+   //exec("./Weapon_BAR.cs"); model done
    //exec("./Weapon_SturmGewehr.cs"); model done
 
    //MACHINE GUNS
-   //exec("./Weapon_LewisLMG.cs");
-   //exec("./Weapon_BrensGun.cs");
-   //exec("./Weapon_StaatmeistersBuzzsaw.cs"); //model done
+   //exec("./Weapon_LewisLMG.cs"); sound done
+   //exec("./Weapon_BrensGun.cs"); sound done
+   //exec("./Weapon_StaatmeistersBuzzsaw.cs"); model done
 
    //MAGNUMS
-   //exec("./Weapon_WebleySnubnose.cs");
-   //exec("./Weapon_NagantRevolver.cs");
-   //exec("./Weapon_ServiceMagnum.cs");
+   //exec("./Weapon_PeacemakerMagnum.cs");
 
    //EXPLOSIVE WEAPONS
-   //exec("./Weapon_WW2Bazooka.cs");
+   //exec("./Weapon_WW2Bazooka.cs"); sound done
    //exec("./Weapon_Panzerogre.cs");
 }
