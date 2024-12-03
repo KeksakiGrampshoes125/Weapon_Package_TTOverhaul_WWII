@@ -1,38 +1,38 @@
 //audio
-datablock AudioProfile(ThompsonSMGFireSound)
+datablock AudioProfile(SturmGewehrFireSound)
 {
-   filename    = "./Sounds/ThompsonSMG_Fire.wav";
+   filename    = "./Sounds/SturmGewehr_Fire.wav";
    description = AudioDefault3d;
    preload = true;
 };
 
-
-AddDamageType("ThompsonSMG",   '<bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_ThompsonSMG> %1 Didn\'t even try with the Thompson SMG',    '%2 Made <bitmap:add-ons/Package_TTOverhaul_WWII/Icons/CI_ThompsonSMG> %1 kick their bucket',0.75,1);
-datablock ProjectileData(ThompsonSMGProjectile : TTOBulletProjectile)
+AddDamageType("SturmGewehr",   '<bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_SturmGewehr> %1 Mein lieben\'d',    '%2 Showed <bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_SturmGewehr> %1 was impressed by german technology',0.75,1);
+datablock ProjectileData(SturmGewehrProjectile : TTOBigBulletProjectile)
 {
-   directDamage        = 18;
-   directDamageType    = $DamageType::ThompsonSMG;
-   radiusDamageType    = $DamageType::ThompsonSMG;
+   directDamage        = 20;
+   directDamageType    = $DamageType::SturmGewehr;
+   radiusDamageType    = $DamageType::SturmGewehr;
 
-   impactImpulse	     = 100;
-   verticalImpulse     = 20;
+   impactImpulse	     = 140;
+   verticalImpulse     = 10;
 
-   muzzleVelocity      = 130;
-   velInheritFactor    = 1;
+   muzzleVelocity      = 180;
 
    gravityMod = 0.2;
+
+   uiName = "";
 };
 
 //////////
 // item //
 //////////
-datablock ItemData(ThompsonSMGItem)
+datablock ItemData(SturmGewehrItem)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
 
 	 // Basic Item Properties
-	shapeFile = "./Models/ThompsonSMG.dts";
+	shapeFile = "./Models/SturmGewehr.dts";
 	rotate = false;
 	mass = 1;
 	density = 0.2;
@@ -41,27 +41,27 @@ datablock ItemData(ThompsonSMGItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Thompson SMG";
-	iconName = "./Icons/ThompsonSMG";
+	uiName = "Sturm Gewehr";
+	iconName = "./Icons/SturmGewehr";
 	doColorShift = true;
-	colorShiftColor = "0.6 0.6 0.67 1.000";
+	colorShiftColor = "0.4 0.4 0.5 1.000";
 
 	 // Dynamic properties defined by the scripts
-	image = ThompsonSMGImage;
+	image = SturmGewehrImage;
 	canDrop = true;
 
-	TTO_ammoType = "45ACP";
+	TTO_ammoType = "762";
 	TTO_reloads = true;
-	TTO_maxAmmo = 20;
+	TTO_maxAmmo = 30;
 };
 
 ////////////////
 //weapon image//
 ////////////////
-datablock ShapeBaseImageData(ThompsonSMGImage)
+datablock ShapeBaseImageData(SturmGewehrImage)
 {
    // Basic Item properties
-   shapeFile = "./Models/ThompsonSMG.dts";
+   shapeFile = "./Models/SturmGewehr.dts";
    emap = true;
 
    // Specify mount point & offset for 3rd person, and eye offset
@@ -82,9 +82,9 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
    className = "WeaponImage";
 
    // Projectile && Ammo.
-   item = ThompsonSMGItem;
+   item = SturmGewehrItem;
    ammo = " ";
-   projectile = ThompsonSMGProjectile;
+   projectile = SturmGewehrProjectile;
    projectileType = Projectile;
 
    casing = GunShellDebris;
@@ -99,7 +99,7 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
    armReady = true;
 
    doColorShift = true;
-   colorShiftColor = ThompsonSMGItem.colorShiftColor;
+   colorShiftColor = SturmGewehrItem.colorShiftColor;
 
    // Images have a state system which controls how the animations
    // are run, which sounds are played, script callbacks, etc. This
@@ -117,24 +117,22 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
 	stateName[1]                     = "Ready";
 	stateTransitionOnNotLoaded[1]       = "Reload";
 	stateTransitionOnTriggerDown[1]  = "FireCheckA";
-	stateAllowImageChange[1]         = true;
 
 	stateName[2]                    = "Fire";
 	stateTransitionOnTimeout[2]     = "Delay";
-	stateTimeoutValue[2]            = 0;
+	stateTimeoutValue[2]            = 0.01;
 	stateFire[2]                    = true;
 	stateAllowImageChange[2]        = false;
-	stateSequence[2]                = "Fire";
 	stateScript[2]                  = "onFire";
 	stateEjectShell[2]       	  = true;
 	stateEmitter[2]					= TTOMuzzleFlashEmitter;
 	stateEmitterTime[2]				= 0.05;
 	stateEmitterNode[2]				= "muzzleNode";
-	//stateSound[2]					= submachinegunFire1Sound;
+	//stateSound[2]					= BrushyRifleFireSound;
 
 	stateName[3]			= "Delay";
 	stateTransitionOnTimeout[3]     = "FireLoadCheckA";
-	stateTimeoutValue[3]            = 0.065;
+	stateTimeoutValue[3]            = 0.036;
 	stateEmitter[3]					= gunSmokeEmitter;
 	stateEmitterTime[3]				= 0.001;
 	stateEmitterNode[3]				= "muzzleNode";
@@ -146,13 +144,12 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
 	
 	stateName[5]				= "LoadCheckB";
 	stateTransitionOnLoaded[5]		= "Ready";
-	stateTransitionOnNotLoaded[5]  = "Empty";
+	stateTransitionOnNotLoaded[5]		= "Empty";
 
 	stateName[6]				= "Reload";
 	stateTimeoutValue[6]			= 0.5;
 	stateScript[6]				= "onReloadStart";
 	stateTransitionOnTimeout[6]		= "Wait";
-	stateWaitForTimeout[6]			= true;
 	
 	stateName[7]				= "Wait";
 	stateTimeoutValue[7]			= 0.42;
@@ -175,92 +172,102 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
 	stateTimeoutValue[10]			= 0.03;
 	stateTransitionOnTimeout[10]		= "Ready";
 	stateTransitionOnTriggerDown[10]	= "FireCheckA";
-
+	
 	stateName[11] 				= "ReloadSmoke";
 	stateEmitter[11]			= gunSmokeEmitter;
 	stateEmitterTime[11]			= 0.3;
 	stateEmitterNode[11]			= "muzzleNode";
-	stateTimeoutValue[11]			= 0.2;
+	stateTimeoutValue[11]			= 0.03;
 	stateTransitionOnTimeout[11]		= "Empty";
 	
-	stateName[12]				= "Reloaded";
-	stateTimeoutValue[12]			= 0.4;
-	stateScript[12]				= "onReloaded";
-	stateTransitionOnTimeout[12]		= "Ready";
 
-	stateName[13]                    = "FireCheckA";
-	stateScript[13]                  = "TTO_onFireCheck";
-	stateTransitionOnTimeout[13]     = "FireCheckB";
+	stateName[13]				= "Reloaded";
+	stateTimeoutValue[13]			= 0.4;
+	stateScript[13]				= "onReloaded";
+	stateTransitionOnTimeout[13]		= "Ready";
 
-	stateName[14]                    = "FireCheckB";
-	stateTransitionOnLoaded[14]   = "Fire";
-	stateTransitionOnNotLoaded[14]      = "EmptyFire";
+	stateName[14]                   = "Empty";
+	stateTransitionOnLoaded[14]      = "Ready";
+	stateTransitionOnAmmo[14]  = "Reload";
+	stateTransitionOnTriggerDown[14]     = "FireCheckA";
 
-	stateName[15]                    = "Empty";
+	stateName[15]                   = "EmptyFire";
+	stateScript[15]                 = "TTO_onEmptyFire";
 	stateTransitionOnLoaded[15]      = "Ready";
-	stateTransitionOnAmmo[15]        = "Reload";
-	stateTransitionOnTriggerDown[15] = "FireCheckA";
+	stateTransitionOnAmmo[15]  = "Reload";
+	stateTransitionOnTriggerUp[15]     = "Empty";
 
-	stateName[16]                    = "EmptyFire";
-	stateScript[16]                  = "TTO_onEmptyFire";
-	stateTransitionOnLoaded[16]      = "Ready";
-	stateTransitionOnAmmo[16]        = "Reload";
-	stateTransitionOnTriggerUp[16]   = "Empty";
+	stateName[16]                    = "FireCheckA";
+	stateScript[16]                  = "TTO_onFireCheck";
+	stateTransitionOnTimeout[16]     = "FireCheckB";
+
+	stateName[17]                    = "FireCheckB";
+	stateTransitionOnLoaded[17]   = "Fire";
+	stateTransitionOnNotLoaded[17]      = "EmptyFire";
 };
 
-function ThompsonSMGImage::onFire(%this,%obj,%slot)
+function SturmGewehrImage::onFire(%this,%obj,%slot)
 {
 
 	%obj.stopAudio(1);
-	%obj.playAudio(1, ThompsonSMGFireSound);
+	%obj.playAudio(1, SturmGewehrFireSound);
 
 	%projectile = %this.projectile;
-	%spread = 0.0015;
+	if((getSimTime() - %obj.lastShotTime) > 200)
+	{
+		%spread = 0.0007;
+	}
+	else
+	{
+		%spread = 0.0012;
+	}
 	%shellCount = 1;
 
-	%obj.playThread(2, shiftRight);
-	%obj.playThread(3, shiftLeft);
-	
+	TTO_knockback(%obj, 0, 0, -1);
+
+	%obj.playThread(2, shiftright);
+	%obj.playThread(3, shiftleft);
+
 	%this.TTO_decrementAmmo(%obj);
 	%this.TTO_displayAmmo(%obj);
 
 	if($Pref::Server::TTO::Recoil)
-		%obj.spawnExplosion(TTOLittleRecoilProjectile,"1 1 1");
+		%obj.spawnExplosion(TTOMedRecoilProjectile,"1 1 1");
 
 	return TTO_createProjectile(%this, %obj, %slot, %projectile, %shellCount, %spread);
 }
 
-function ThompsonSMGImage::onReloadStart(%this,%obj,%slot)
+function SturmGewehrImage::onReloadStart(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return;
 	%this.TTO_displayAmmo(%obj);
-	%obj.playThread(2, wrench);
-	serverPlay3D(ReloadOut6Sound,%obj.getPosition());
+	%obj.playThread(2, shiftTo);
+	serverPlay3D(ReloadOut1Sound,%obj.getPosition());
 }
 
-function ThompsonSMGImage::onReloadWait(%this,%obj,%slot)
+function SturmGewehrImage::onReloadWait(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return;
 	%this.TTO_displayAmmo(%obj);
-	serverPlay3D(ReloadTap7Sound,%obj.getPosition());
-	%obj.playThread(2, shiftRight);
+	%obj.playThread(2, shiftleft);
+	serverPlay3D(ReloadTap3Sound,%obj.getPosition());
 }
 
-function ThompsonSMGImage::onReloaded(%this,%obj,%slot)
+function SturmGewehrImage::onReloaded(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return %obj.setImageLoaded(%slot, 1);
-	%this.TTO_reload(%obj, %slot, reloadClick6Sound, plant);
+	%this.TTO_reload(%obj, %slot, reloadClick8Sound, plant);
 	%this.TTO_displayAmmo(%obj);
 }
 
-function ThompsonSMGProjectile::damage(%this,%obj,%col,%fade,%pos,%normal)
+function SturmGewehrProjectile::damage(%this,%obj,%col,%fade,%pos,%normal)
 {
-	if(%col.getType() & $TypeMasks::PlayerObjectType)
-	{
-		TTO_dampenVelocity(%col, 1.1);
-	}
+   if(%col.getType() & $TypeMasks::PlayerObjectType)
+   {
+      TTO_dampenVelocity(%col, 1.2);
+   }
 	Parent::damage(%this,%obj,%col,%fade,%pos,%normal);
 }

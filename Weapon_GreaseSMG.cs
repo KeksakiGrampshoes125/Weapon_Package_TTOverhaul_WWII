@@ -1,24 +1,23 @@
 //audio
-datablock AudioProfile(ThompsonSMGFireSound)
+datablock AudioProfile(GreaseSMGFireSound)
 {
-   filename    = "./Sounds/ThompsonSMG_Fire.wav";
+   filename    = "./Sounds/GreaseSMG_Fire.wav";
    description = AudioDefault3d;
    preload = true;
 };
 
 
-AddDamageType("ThompsonSMG",   '<bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_ThompsonSMG> %1 Didn\'t even try with the Thompson SMG',    '%2 Made <bitmap:add-ons/Package_TTOverhaul_WWII/Icons/CI_ThompsonSMG> %1 kick their bucket',0.75,1);
-datablock ProjectileData(ThompsonSMGProjectile : TTOBulletProjectile)
+AddDamageType("GreaseSMG",   '<bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_GreaseSMG> %1 became a Grease Monkey',    '%2 Shot <bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_GreaseSMG> %1 on a budget',0.75,1);
+datablock ProjectileData(GreaseSMGProjectile : TTOBulletProjectile)
 {
-   directDamage        = 18;
-   directDamageType    = $DamageType::ThompsonSMG;
-   radiusDamageType    = $DamageType::ThompsonSMG;
+   directDamage        = 12;
+   directDamageType    = $DamageType::GreaseSMG;
+   radiusDamageType    = $DamageType::GreaseSMG;
 
    impactImpulse	     = 100;
    verticalImpulse     = 20;
 
-   muzzleVelocity      = 130;
-   velInheritFactor    = 1;
+   muzzleVelocity      = 170;
 
    gravityMod = 0.2;
 };
@@ -26,13 +25,13 @@ datablock ProjectileData(ThompsonSMGProjectile : TTOBulletProjectile)
 //////////
 // item //
 //////////
-datablock ItemData(ThompsonSMGItem)
+datablock ItemData(GreaseSMGItem)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
 
 	 // Basic Item Properties
-	shapeFile = "./Models/ThompsonSMG.dts";
+	shapeFile = "./Models/GreaseSMG.dts";
 	rotate = false;
 	mass = 1;
 	density = 0.2;
@@ -41,13 +40,13 @@ datablock ItemData(ThompsonSMGItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Thompson SMG";
-	iconName = "./Icons/ThompsonSMG";
+	uiName = "Grease SMG";
+	iconName = "./Icons/GreaseSMG";
 	doColorShift = true;
-	colorShiftColor = "0.6 0.6 0.67 1.000";
+	colorShiftColor = "0.38 0.36 0.3 1.000";
 
 	 // Dynamic properties defined by the scripts
-	image = ThompsonSMGImage;
+	image = GreaseSMGImage;
 	canDrop = true;
 
 	TTO_ammoType = "45ACP";
@@ -58,10 +57,10 @@ datablock ItemData(ThompsonSMGItem)
 ////////////////
 //weapon image//
 ////////////////
-datablock ShapeBaseImageData(ThompsonSMGImage)
+datablock ShapeBaseImageData(GreaseSMGImage)
 {
    // Basic Item properties
-   shapeFile = "./Models/ThompsonSMG.dts";
+   shapeFile = "./Models/GreaseSMG.dts";
    emap = true;
 
    // Specify mount point & offset for 3rd person, and eye offset
@@ -82,9 +81,9 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
    className = "WeaponImage";
 
    // Projectile && Ammo.
-   item = ThompsonSMGItem;
+   item = GreaseSMGItem;
    ammo = " ";
-   projectile = ThompsonSMGProjectile;
+   projectile = GreaseSMGProjectile;
    projectileType = Projectile;
 
    casing = GunShellDebris;
@@ -99,7 +98,7 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
    armReady = true;
 
    doColorShift = true;
-   colorShiftColor = ThompsonSMGItem.colorShiftColor;
+   colorShiftColor = GreaseSMGItem.colorShiftColor;
 
    // Images have a state system which controls how the animations
    // are run, which sounds are played, script callbacks, etc. This
@@ -134,7 +133,7 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
 
 	stateName[3]			= "Delay";
 	stateTransitionOnTimeout[3]     = "FireLoadCheckA";
-	stateTimeoutValue[3]            = 0.065;
+	stateTimeoutValue[3]            = 0.1;
 	stateEmitter[3]					= gunSmokeEmitter;
 	stateEmitterTime[3]				= 0.001;
 	stateEmitterNode[3]				= "muzzleNode";
@@ -208,14 +207,14 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
 	stateTransitionOnTriggerUp[16]   = "Empty";
 };
 
-function ThompsonSMGImage::onFire(%this,%obj,%slot)
+function GreaseSMGImage::onFire(%this,%obj,%slot)
 {
 
 	%obj.stopAudio(1);
-	%obj.playAudio(1, ThompsonSMGFireSound);
+	%obj.playAudio(1, GreaseSMGFireSound);
 
 	%projectile = %this.projectile;
-	%spread = 0.0015;
+	%spread = 0.0021;
 	%shellCount = 1;
 
 	%obj.playThread(2, shiftRight);
@@ -230,33 +229,33 @@ function ThompsonSMGImage::onFire(%this,%obj,%slot)
 	return TTO_createProjectile(%this, %obj, %slot, %projectile, %shellCount, %spread);
 }
 
-function ThompsonSMGImage::onReloadStart(%this,%obj,%slot)
+function GreaseSMGImage::onReloadStart(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return;
 	%this.TTO_displayAmmo(%obj);
 	%obj.playThread(2, wrench);
-	serverPlay3D(ReloadOut6Sound,%obj.getPosition());
+	serverPlay3D(ReloadOut0Sound,%obj.getPosition());
 }
 
-function ThompsonSMGImage::onReloadWait(%this,%obj,%slot)
+function GreaseSMGImage::onReloadWait(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return;
 	%this.TTO_displayAmmo(%obj);
-	serverPlay3D(ReloadTap7Sound,%obj.getPosition());
-	%obj.playThread(2, shiftRight);
+	serverPlay3D(ReloadTap2Sound,%obj.getPosition());
+	%obj.playThread(2, activate);
 }
 
-function ThompsonSMGImage::onReloaded(%this,%obj,%slot)
+function GreaseSMGImage::onReloaded(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return %obj.setImageLoaded(%slot, 1);
-	%this.TTO_reload(%obj, %slot, reloadClick6Sound, plant);
+	%this.TTO_reload(%obj, %slot, reloadClick3Sound, plant);
 	%this.TTO_displayAmmo(%obj);
 }
 
-function ThompsonSMGProjectile::damage(%this,%obj,%col,%fade,%pos,%normal)
+function GreaseSMGProjectile::damage(%this,%obj,%col,%fade,%pos,%normal)
 {
 	if(%col.getType() & $TypeMasks::PlayerObjectType)
 	{

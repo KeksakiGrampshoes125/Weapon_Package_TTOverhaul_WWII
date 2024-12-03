@@ -1,24 +1,23 @@
 //audio
-datablock AudioProfile(ThompsonSMGFireSound)
+datablock AudioProfile(HyakuJuFireSound)
 {
-   filename    = "./Sounds/ThompsonSMG_Fire.wav";
+   filename    = "./Sounds/HyakuJu_Fire.wav";
    description = AudioDefault3d;
    preload = true;
 };
 
 
-AddDamageType("ThompsonSMG",   '<bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_ThompsonSMG> %1 Didn\'t even try with the Thompson SMG',    '%2 Made <bitmap:add-ons/Package_TTOverhaul_WWII/Icons/CI_ThompsonSMG> %1 kick their bucket',0.75,1);
-datablock ProjectileData(ThompsonSMGProjectile : TTOBulletProjectile)
+AddDamageType("HyakuJu",   'Eventually, <bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_HyakuJu> %1 has stopped living',    '%2 Killed <bitmap:add-ons/Weapon_Package_TTOverhaul_WWII/Icons/CI_HyakuJu> %1 with another Sideways SMG',0.75,1);
+datablock ProjectileData(HyakuJuProjectile : TTOBulletProjectile)
 {
-   directDamage        = 18;
-   directDamageType    = $DamageType::ThompsonSMG;
-   radiusDamageType    = $DamageType::ThompsonSMG;
+   directDamage        = 12;
+   directDamageType    = $DamageType::HyakuJu;
+   radiusDamageType    = $DamageType::HyakuJu;
 
    impactImpulse	     = 100;
    verticalImpulse     = 20;
 
-   muzzleVelocity      = 130;
-   velInheritFactor    = 1;
+   muzzleVelocity      = 170;
 
    gravityMod = 0.2;
 };
@@ -26,13 +25,13 @@ datablock ProjectileData(ThompsonSMGProjectile : TTOBulletProjectile)
 //////////
 // item //
 //////////
-datablock ItemData(ThompsonSMGItem)
+datablock ItemData(HyakuJuItem)
 {
 	category = "Weapon";  // Mission editor category
 	className = "Weapon"; // For inventory system
 
 	 // Basic Item Properties
-	shapeFile = "./Models/ThompsonSMG.dts";
+	shapeFile = "./Models/HyakuJu.dts";
 	rotate = false;
 	mass = 1;
 	density = 0.2;
@@ -41,27 +40,27 @@ datablock ItemData(ThompsonSMGItem)
 	emap = true;
 
 	//gui stuff
-	uiName = "Thompson SMG";
-	iconName = "./Icons/ThompsonSMG";
+	uiName = "Hyaku Ju";
+	iconName = "./Icons/HyakuJu";
 	doColorShift = true;
-	colorShiftColor = "0.6 0.6 0.67 1.000";
+	colorShiftColor = "0.3 0.3 0.38 1.000";
 
 	 // Dynamic properties defined by the scripts
-	image = ThompsonSMGImage;
+	image = HyakuJuImage;
 	canDrop = true;
 
-	TTO_ammoType = "45ACP";
+	TTO_ammoType = "9MM";
 	TTO_reloads = true;
-	TTO_maxAmmo = 20;
+	TTO_maxAmmo = 30;
 };
 
 ////////////////
 //weapon image//
 ////////////////
-datablock ShapeBaseImageData(ThompsonSMGImage)
+datablock ShapeBaseImageData(HyakuJuImage)
 {
    // Basic Item properties
-   shapeFile = "./Models/ThompsonSMG.dts";
+   shapeFile = "./Models/HyakuJu.dts";
    emap = true;
 
    // Specify mount point & offset for 3rd person, and eye offset
@@ -82,9 +81,9 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
    className = "WeaponImage";
 
    // Projectile && Ammo.
-   item = ThompsonSMGItem;
+   item = HyakuJuItem;
    ammo = " ";
-   projectile = ThompsonSMGProjectile;
+   projectile = HyakuJuProjectile;
    projectileType = Projectile;
 
    casing = GunShellDebris;
@@ -99,7 +98,7 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
    armReady = true;
 
    doColorShift = true;
-   colorShiftColor = ThompsonSMGItem.colorShiftColor;
+   colorShiftColor = HyakuJuItem.colorShiftColor;
 
    // Images have a state system which controls how the animations
    // are run, which sounds are played, script callbacks, etc. This
@@ -134,7 +133,7 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
 
 	stateName[3]			= "Delay";
 	stateTransitionOnTimeout[3]     = "FireLoadCheckA";
-	stateTimeoutValue[3]            = 0.065;
+	stateTimeoutValue[3]            = 0.075;
 	stateEmitter[3]					= gunSmokeEmitter;
 	stateEmitterTime[3]				= 0.001;
 	stateEmitterNode[3]				= "muzzleNode";
@@ -208,14 +207,14 @@ datablock ShapeBaseImageData(ThompsonSMGImage)
 	stateTransitionOnTriggerUp[16]   = "Empty";
 };
 
-function ThompsonSMGImage::onFire(%this,%obj,%slot)
+function HyakuJuImage::onFire(%this,%obj,%slot)
 {
 
 	%obj.stopAudio(1);
-	%obj.playAudio(1, ThompsonSMGFireSound);
+	%obj.playAudio(1, TypewriterSMGFireSound);
 
 	%projectile = %this.projectile;
-	%spread = 0.0015;
+	%spread = 0.0021;
 	%shellCount = 1;
 
 	%obj.playThread(2, shiftRight);
@@ -230,25 +229,25 @@ function ThompsonSMGImage::onFire(%this,%obj,%slot)
 	return TTO_createProjectile(%this, %obj, %slot, %projectile, %shellCount, %spread);
 }
 
-function ThompsonSMGImage::onReloadStart(%this,%obj,%slot)
+function HyakuJuImage::onReloadStart(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return;
 	%this.TTO_displayAmmo(%obj);
-	%obj.playThread(2, wrench);
-	serverPlay3D(ReloadOut6Sound,%obj.getPosition());
+	%obj.playThread(2, shiftRight);
+	serverPlay3D(ReloadOut1Sound,%obj.getPosition());
 }
 
-function ThompsonSMGImage::onReloadWait(%this,%obj,%slot)
+function HyakuJuImage::onReloadWait(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return;
 	%this.TTO_displayAmmo(%obj);
 	serverPlay3D(ReloadTap7Sound,%obj.getPosition());
-	%obj.playThread(2, shiftRight);
+	%obj.playThread(2, plant);
 }
 
-function ThompsonSMGImage::onReloaded(%this,%obj,%slot)
+function HyakuJuImage::onReloaded(%this,%obj,%slot)
 {
 	if($Pref::Server::TTO::DeathStopAnims && %obj.getDamagePercent() >= 1.0)
 		return %obj.setImageLoaded(%slot, 1);
@@ -256,7 +255,7 @@ function ThompsonSMGImage::onReloaded(%this,%obj,%slot)
 	%this.TTO_displayAmmo(%obj);
 }
 
-function ThompsonSMGProjectile::damage(%this,%obj,%col,%fade,%pos,%normal)
+function HyakuJuProjectile::damage(%this,%obj,%col,%fade,%pos,%normal)
 {
 	if(%col.getType() & $TypeMasks::PlayerObjectType)
 	{
